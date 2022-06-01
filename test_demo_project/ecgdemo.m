@@ -32,19 +32,16 @@
 %              When utilizing credit LIBROW site
 
 %   We are processing two data samples to demonstrate two different situations
-for demo = 1:2:3
+
     %   Clear our variables
     clear ecg samplingrate corrected filtered1 peaks1 filtered2 peaks2 fresult
     
     %   Load data sample
-    switch(demo)
-        case 1,
             plotname = 'Sample 1';
-            load ecgdemodata1;
-        case 3,
-            plotname = 'Sample 2';
-            load ecgdemodata2;
-    end
+            load 231m;
+            ecg = val;
+            samplingrate = 360;
+            
     
     %   Remove lower frequencies
     fresult=fft(ecg);
@@ -108,7 +105,8 @@ for demo = 1:2:3
 %% 
     
     %   Create figure - stages of processing
-    figure(demo); set(demo, 'Name', strcat(plotname, ' - Processing Stages'));
+    figure(1); 
+    set(1, 'Name', strcat(plotname, ' - Processing Stages'));
     %   Original input ECG data
     subplot(3, 2, 1); plot((ecg-min(ecg))/(max(ecg)-min(ecg)));
     title('\bf1. Original ECG'); ylim([-0.2 1.2]);
@@ -128,7 +126,7 @@ for demo = 1:2:3
     subplot(3, 2, 6); stem(peaks2);
     title('\bf6. Detected Peaks - Finally'); ylim([0 1.4]);
     %   Create figure - result
-    figure(demo+1); set(demo+1, 'Name', strcat(plotname, ' - Result'));
+    figure(2); set(2, 'Name', strcat(plotname, ' - Result'));
     %   Plotting ECG in green
     plot((ecg-min(ecg))/(max(ecg)-min(ecg)), '-g'); title('\bf Comparative ECG R-Peak Detection Plot');
     %   Show peaks in the same picture
@@ -137,4 +135,3 @@ for demo = 1:2:3
     stem(peaks2'.*((ecg-min(ecg))/(max(ecg)-min(ecg)))', ':k');
     %   Hold off the figure
     hold off
-end
